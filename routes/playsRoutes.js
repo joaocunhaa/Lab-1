@@ -3,7 +3,6 @@ const router = express.Router();
 const Play = require("../models/playsModel");
 const auth = require("../middleware/auth");
 
-
 router.patch('/endturn', auth.verifyAuth, async function (req, res, next) {
     try {
         console.log("Play End Turn");
@@ -18,7 +17,5 @@ router.patch('/endturn', auth.verifyAuth, async function (req, res, next) {
         res.status(500).send(err);
     }
 });
-
-
 
 module.exports = router;

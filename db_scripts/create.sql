@@ -1,6 +1,6 @@
-create database mygame;
+create database Lab_1;
 
-use mygame;
+use Lab_1;
 
 create table user (
     usr_id int not null auto_increment,
@@ -25,6 +25,8 @@ create table user_game (
     ug_user_id int not null,
     ug_game_id int not null,
     ug_state_id int not null,
+    ug_damage int default 0,
+    ug_draw boolean default FALSE,
     primary key (ug_id));
 
 create table user_game_state (
@@ -37,8 +39,7 @@ create table card (
     crd_name varchar(60) not null,
     crd_attack int not null,
     crd_health int not null,
-    primary key (crd_id)
-);
+    primary key (crd_id));
 
 create table user_game_card (
     ugc_id int not null auto_increment,
@@ -46,14 +47,18 @@ create table user_game_card (
     ugc_crd_id int not null,
     ugc_current_health int not null,
     ugc_was_used boolean not null,
-    primary key (ugc_id)
-);
+    primary key (ugc_id));
 
 # Foreign Keys
 
 alter table user_game_card add constraint ugc_fk_ug
-            foreign key (ugc_ug_id) references user_state(ug_id) 
+            foreign key (ugc_ug_id) references user_game(ug_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+alter table user_game_card add constraint ugc_fk_card
+            foreign key (ugc_crd_id) references card(crd_id) 
+			ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 
 alter table game add constraint game_fk_match_state
             foreign key (gm_state_id) references game_state(gst_id) 
